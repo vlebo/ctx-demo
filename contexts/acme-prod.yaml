@@ -1,0 +1,63 @@
+# ACME Corp - Production Environment
+# WARNING: This requires --confirm flag to switch
+
+name: acme-prod
+description: ACME Corp production environment
+environment: production  # This triggers production safeguards
+tags:
+  - acme
+  - prod
+  - critical
+
+aws:
+  profile: acme-prod
+  region: us-east-1
+  use_vault: true  # Recommended for production
+
+kubernetes:
+  context: prod-cluster
+  namespace: default
+
+# VPN required for production access
+vpn:
+  type: wireguard
+  config: /etc/wireguard/acme-prod.conf
+  auto_connect: true
+
+ssh:
+  bastion:
+    host: bastion.prod.acme.com
+    user: devops
+    port: 22
+    identity_file: ~/.ssh/acme-prod
+
+tunnels:
+  - name: postgres
+    description: PostgreSQL database
+    remote_host: db.prod.internal
+    remote_port: 5432
+    local_port: 5432
+
+  - name: redis
+    description: Redis cache
+    remote_host: cache.prod.internal
+    remote_port: 6379
+    local_port: 6379
+
+env:
+  API_URL: https://api.acme.com
+  LOG_LEVEL: warn
+  FEATURE_FLAG_NEW_UI: "false"
+  DATABASE_POOL_SIZE: "50"
+  CACHE_TTL: "3600"
+  SENTRY_ENVIRONMENT: production
+
+git:
+  author_name: ACME Production
+  author_email: production@acme.com
+
+# Production-specific network config
+network:
+  http_proxy: http://proxy.prod.acme.com:8080
+  https_proxy: http://proxy.prod.acme.com:8080
+  no_proxy: localhost,127.0.0.1,.internal,.acme.com

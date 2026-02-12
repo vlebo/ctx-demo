@@ -1,0 +1,34 @@
+# ctx demo environment bashrc
+
+# Initialize ctx shell integration
+eval "$(ctx shell-hook bash)"
+
+# Helpful aliases
+alias c='ctx'
+alias cu='ctx use'
+alias cl='ctx list'
+alias cs='ctx show'
+
+# Welcome message
+cat << 'EOF'
+╔══════════════════════════════════════════════════════════════╗
+║              ctx_ Demo Environment                           ║
+╚══════════════════════════════════════════════════════════════╝
+
+Available contexts:
+  • acme-dev      - Development environment (AWS + K8s + tunnels)
+  • acme-staging  - Staging environment
+  • acme-prod     - Production (requires --confirm)
+  • acme-gcp      - GCP multi-cloud example
+  • acme-azure    - Azure multi-cloud example
+  • acme-nomad    - HashiCorp stack (Nomad/Consul/Vault)
+
+Quick commands:
+  ctx list        - List all contexts
+  ctx show <name> - Show context details
+  ctx use <name>  - Switch to context
+  ctx deactivate  - Deactivate current context
+
+Or run: ./demo.sh for a guided tour
+
+EOF

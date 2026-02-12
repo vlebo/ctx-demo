@@ -1,0 +1,51 @@
+# ACME Corp - GCP Development Environment
+# Example of multi-cloud setup with Google Cloud Platform
+
+name: acme-gcp
+description: ACME Corp GCP development environment
+environment: development
+tags:
+  - acme
+  - gcp
+  - dev
+
+# GCP Configuration
+gcp:
+  project: acme-dev-123456
+  region: us-central1
+  zone: us-central1-a
+  config_name: acme-dev  # gcloud config name
+
+# GKE (Google Kubernetes Engine)
+kubernetes:
+  gke:
+    cluster: dev-cluster
+    project: acme-dev-123456
+    zone: us-central1-a
+
+# SSH for GCP instances
+ssh:
+  bastion:
+    host: bastion.dev.gcp.acme.com
+    user: devops
+    port: 22
+    identity_file: ~/.ssh/acme-gcp
+
+tunnels:
+  - name: cloudsql
+    description: Cloud SQL (PostgreSQL)
+    remote_host: 10.0.0.5
+    remote_port: 5432
+    local_port: 5432
+
+  - name: memorystore
+    description: Memorystore (Redis)
+    remote_host: 10.0.0.10
+    remote_port: 6379
+    local_port: 6379
+
+env:
+  API_URL: https://api.dev.gcp.acme.com
+  LOG_LEVEL: debug
+  GCP_PROJECT_ID: acme-dev-123456
+  DATABASE_POOL_SIZE: "10"

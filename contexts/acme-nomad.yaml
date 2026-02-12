@@ -1,0 +1,47 @@
+# ACME Corp - Nomad/Consul/Vault Environment
+# Example for HashiCorp stack users
+
+name: acme-nomad
+description: ACME Corp HashiCorp stack development
+environment: development
+tags:
+  - acme
+  - hashicorp
+  - dev
+
+# Nomad Configuration
+nomad:
+  address: https://nomad.dev.acme.com:4646
+  namespace: dev
+  region: us-east-1
+  token_var: NOMAD_TOKEN  # Read token from this env var
+
+# Consul Configuration
+consul:
+  address: https://consul.dev.acme.com:8500
+  datacenter: dc1
+  token_var: CONSUL_HTTP_TOKEN
+
+# Vault Configuration
+vault:
+  address: https://vault.dev.acme.com:8200
+  namespace: dev
+  token_var: VAULT_TOKEN
+
+# Still using AWS for infrastructure
+aws:
+  profile: acme-dev
+  region: us-east-1
+
+ssh:
+  bastion:
+    host: bastion.dev.acme.com
+    user: devops
+    port: 22
+    identity_file: ~/.ssh/acme-dev
+
+env:
+  LOG_LEVEL: debug
+  NOMAD_NAMESPACE: dev
+  CONSUL_NAMESPACE: dev
+  VAULT_NAMESPACE: dev

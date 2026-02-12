@@ -1,0 +1,48 @@
+# ACME Corp - Staging Environment
+
+name: acme-staging
+description: ACME Corp staging environment
+environment: staging
+tags:
+  - acme
+  - staging
+
+aws:
+  profile: acme-staging
+  region: us-east-1
+
+kubernetes:
+  context: staging-cluster
+  namespace: default
+
+ssh:
+  bastion:
+    host: bastion.staging.acme.com
+    user: devops
+    port: 22
+    identity_file: ~/.ssh/acme-staging
+
+tunnels:
+  - name: postgres
+    description: PostgreSQL database
+    remote_host: db.staging.internal
+    remote_port: 5432
+    local_port: 5432
+
+  - name: redis
+    description: Redis cache
+    remote_host: cache.staging.internal
+    remote_port: 6379
+    local_port: 6379
+
+env:
+  API_URL: https://api.staging.acme.com
+  LOG_LEVEL: info
+  FEATURE_FLAG_NEW_UI: "true"
+  DATABASE_POOL_SIZE: "20"
+  CACHE_TTL: "600"
+  SENTRY_ENVIRONMENT: staging
+
+git:
+  author_name: ACME DevOps
+  author_email: devops@acme.com

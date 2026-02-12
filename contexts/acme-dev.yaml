@@ -1,0 +1,63 @@
+# ACME Corp - Development Environment
+# This is a complete example context for the workshop demo
+
+name: acme-dev
+description: ACME Corp development environment
+environment: development
+tags:
+  - acme
+  - dev
+
+# AWS Configuration
+aws:
+  profile: acme-dev
+  region: us-east-1
+  # Optional: Use aws-vault for secure credential management
+  # use_vault: true
+
+# Kubernetes Configuration
+kubernetes:
+  context: dev-cluster
+  namespace: default
+
+# SSH Bastion for tunnels
+ssh:
+  bastion:
+    host: bastion.dev.acme.com
+    user: devops
+    port: 22
+    identity_file: ~/.ssh/acme-dev
+
+# SSH Tunnels
+tunnels:
+  - name: postgres
+    description: PostgreSQL database
+    remote_host: db.dev.internal
+    remote_port: 5432
+    local_port: 5432
+
+  - name: redis
+    description: Redis cache
+    remote_host: cache.dev.internal
+    remote_port: 6379
+    local_port: 6379
+
+# Custom Environment Variables
+env:
+  API_URL: https://api.dev.acme.com
+  LOG_LEVEL: debug
+  FEATURE_FLAG_NEW_UI: "true"
+  DATABASE_POOL_SIZE: "10"
+  CACHE_TTL: "300"
+  SENTRY_ENVIRONMENT: development
+
+# Git Configuration
+git:
+  author_name: ACME DevOps
+  author_email: devops@acme.com
+
+# Network Configuration (optional)
+network:
+  http_proxy: http://proxy.dev.acme.com:8080
+  https_proxy: http://proxy.dev.acme.com:8080
+  no_proxy: localhost,127.0.0.1,.internal

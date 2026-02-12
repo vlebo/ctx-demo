@@ -1,0 +1,49 @@
+# ACME Corp - Azure Development Environment
+# Example of multi-cloud setup with Microsoft Azure
+
+name: acme-azure
+description: ACME Corp Azure development environment
+environment: development
+tags:
+  - acme
+  - azure
+  - dev
+
+# Azure Configuration
+azure:
+  subscription: acme-dev-subscription-id
+  tenant: acme-tenant-id
+  resource_group: acme-dev-rg
+  location: eastus
+
+# AKS (Azure Kubernetes Service)
+kubernetes:
+  aks:
+    cluster: dev-cluster
+    resource_group: acme-dev-rg
+
+ssh:
+  bastion:
+    host: bastion.dev.azure.acme.com
+    user: devops
+    port: 22
+    identity_file: ~/.ssh/acme-azure
+
+tunnels:
+  - name: azure-db
+    description: Azure Database for PostgreSQL
+    remote_host: acme-dev-db.postgres.database.azure.com
+    remote_port: 5432
+    local_port: 5432
+
+  - name: redis-cache
+    description: Azure Cache for Redis
+    remote_host: acme-dev-redis.redis.cache.windows.net
+    remote_port: 6379
+    local_port: 6379
+
+env:
+  API_URL: https://api.dev.azure.acme.com
+  LOG_LEVEL: debug
+  AZURE_SUBSCRIPTION_ID: acme-dev-subscription-id
+  DATABASE_POOL_SIZE: "10"
